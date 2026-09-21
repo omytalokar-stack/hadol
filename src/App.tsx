@@ -23,6 +23,7 @@ import { PrintKundaliReport } from "./components/PrintKundaliReport";
 import { ExecutiveSummaryCard } from "./components/ExecutiveSummaryCard";
 import { GlossaryTooltip } from "./components/GlossaryTooltip";
 import { Settings } from "./components/Settings";
+import { useInstallPrompt } from "./hooks/useInstallPrompt";
 import { apiUrl } from "./utils/api";
 
 type AdminRecord = {
@@ -1320,7 +1321,8 @@ function AppShell() {
 
 export default function App() {
   const { user, loading } = useAuth();
-  if (window.location.pathname === "/settings") return <Settings />;
+  const installPrompt = useInstallPrompt();
+  if (window.location.pathname === "/settings") return <Settings installPrompt={installPrompt} />;
   if (window.location.pathname !== "/admin") return <AppShell />;
   if (loading)
     return (

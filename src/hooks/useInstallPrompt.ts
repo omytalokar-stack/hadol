@@ -5,7 +5,13 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
-export function useInstallPrompt() {
+export type InstallPromptState = {
+  canInstall: boolean;
+  isInstalled: boolean;
+  install: () => Promise<boolean>;
+};
+
+export function useInstallPrompt(): InstallPromptState {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useInstallPrompt } from "../hooks/useInstallPrompt";
+import type { InstallPromptState } from "../hooks/useInstallPrompt";
 
-export function Settings() {
-  const { canInstall, isInstalled, install } = useInstallPrompt();
+export function Settings({ installPrompt }: { installPrompt: InstallPromptState }) {
+  const { canInstall, isInstalled, install } = installPrompt;
   const [message, setMessage] = useState("");
 
   const handleInstall = async () => {
