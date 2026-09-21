@@ -687,19 +687,19 @@ function generateScripturalFallbackReading(
 
   const asc =
     parsedChart?.ascendantLagna?.rashi
-      ? `${parsedChart.ascendantLagna.rashi} (${parsedChart.ascendantLagna.formattedDegree || ""})`
+      ? parsedChart.ascendantLagna.rashi
       : typeof parsedChart?.ascendant === "object"
-      ? `${parsedChart.ascendant.rashi || "Ascendant"} (${parsedChart.ascendant.formattedDegree || ""})`
-      : parsedChart?.ascendant || "Calculated Ascendant";
+      ? parsedChart.ascendant.rashi || "लग्न"
+      : parsedChart?.ascendant || "लग्न";
 
   const ascLord = parsedChart?.ascendantLagna?.rashiLord || "Lagna Lord";
 
   const moon =
     parsedChart?.moonSignChandra?.rashi
-      ? `${parsedChart.moonSignChandra.rashi} (${parsedChart.moonSignChandra.formattedDegree || ""})`
+      ? parsedChart.moonSignChandra.rashi
       : typeof parsedChart?.moonSign === "object"
-      ? `${parsedChart.moonSign.rashi || "Moon"}`
-      : parsedChart?.moonSign || "Calculated Moon Sign";
+      ? parsedChart.moonSign.rashi || "चंद्र राशि"
+      : parsedChart?.moonSign || "चंद्र राशि";
 
   const nakshatra =
     parsedChart?.moonSignChandra?.nakshatra ||
@@ -713,10 +713,10 @@ function generateScripturalFallbackReading(
 
   const sun =
     parsedChart?.sunSignSurya?.rashi
-      ? `${parsedChart.sunSignSurya.rashi} (भाव ${parsedChart.sunSignSurya.house || 1}, ${parsedChart.sunSignSurya.formattedDegree || ""})`
+      ? `${parsedChart.sunSignSurya.rashi} राशि`
       : typeof parsedChart?.sunSign === "object"
-      ? `${parsedChart.sunSign.rashi || "Sun"}`
-      : parsedChart?.sunSign || "Calculated Sun Sign";
+      ? parsedChart.sunSign.rashi || "सूर्य स्थिति"
+      : parsedChart?.sunSign || "सूर्य स्थिति";
 
   const dasha =
     parsedChart?.currentVimshottariDasha?.dashaSummary ||
@@ -769,7 +769,7 @@ function generateScripturalFallbackReading(
   const mercuryP = planets.find((p: any) => p.planet === "Mercury" || p.name === "Mercury");
 
   const lowerQ = (userQuestion + " " + category).toLowerCase();
-  const isEnglish = language.toLowerCase() === "english";
+  const isEnglish = false;
 
   // Determine query focus
   const isCareer = lowerQ.includes("career") || lowerQ.includes("job") || lowerQ.includes("naukri") || lowerQ.includes("business") || lowerQ.includes("vyapar") || lowerQ.includes("profession") || lowerQ.includes("karm") || lowerQ.includes("kam");
@@ -825,81 +825,35 @@ function generateScripturalFallbackReading(
 * **ग्रह स्थिति:** ${planetsSummaryHindi}।`;
     }
 
-    return `### ॐ श्री गणेशाय नमः | प्रामाणिक वैदिक ज्योतिष परामर्श
+    return `ॐ श्री गणेशाय नमः।
 
-**सादर नमस्कार ${name} जी।**
-बृहत् पराशर होरा शास्त्र एवं आपकी जन्म कुंडली की सटीक गणना के आधार पर शास्त्रसम्मत विश्लेषण:
+  सादर नमस्कार ${name} जी। आपकी जन्म कुंडली और वर्तमान जीवन परिस्थिति का यह सरल, आत्मीय विश्लेषण आपके प्रश्न को ध्यान में रखकर प्रस्तुत है।
 
-#### १. आधारभूत कुंडली विन्यास (Natal Matrix)
-* **लग्न (Ascendant):** **${asc}** (लग्न स्वामी: **${ascLord}**) — आपका आत्मबल, व्यक्तित्व और शारीरिक ऊर्जा।
-* **चंद्र राशि एवं नक्षत्र (Moon):** **${moon}** (${nakshatra}${pada ? ', पद ' + pada : ''}) — मन की एकाग्रता, भावनाएं एवं मानसिक संतुलन।
-* **सूर्य स्थिति (Surya Factor):** **${sun}** — आत्मा का कारक एवं यश-सम्मान।
+  **१. जन्म कुंडली का स्वरूप:**
+  आपकी कुंडली में ${asc} लग्न और ${moon} चंद्र राशि दिखाई देती है। इससे आपके स्वभाव में अपनी दिशा बनाने की क्षमता, भावनात्मक गहराई और परिस्थितियों को समझकर आगे बढ़ने का गुण दिखाई देता है। इस समय ${dasha} का प्रभाव चल रहा है, इसलिए धैर्य, अनुशासन और सही निर्णय आपके लिए विशेष रूप से लाभकारी रहेंगे।
 
-#### २. सक्रिय विंशोत्तरी दशा (Current Dasha Period)
-* **सक्रिय कालखण्ड:** **${dasha}**
-* **दशा का प्रभाव:** यह कालखण्ड आपके जीवन में कर्म-शुद्धि, अनुशासन और सही दिशा में लिए गए निर्णयों का शुभ फल देने में सक्षम है।
+  **२. मुख्य प्रश्न का उत्तर एवं ग्रह प्रभाव:**
+  आपके प्रश्न "${userQuestion}" का उत्तर यह है कि वर्तमान समय में जल्दबाजी के बजाय शांत मन से लिए गए व्यावहारिक निर्णय अधिक फलदायी होंगे। आपकी कुंडली में लग्न स्वामी ${ascLord} और सक्रिय दशा का प्रभाव बताता है कि निरंतर प्रयास, स्पष्ट संवाद और अपनी प्राथमिकताओं पर ध्यान देने से स्थिति धीरे-धीरे आपके पक्ष में बनेगी।
 
-${focusAnalysisHindi}
+  **३. जीवन के अन्य महत्वपूर्ण पहलू:**
+  आपके कार्य, परिवार और स्वास्थ्य के लिए नियमित दिनचर्या, संतुलित वाणी और पर्याप्त विश्राम आवश्यक हैं। परिवार के अनुभवी लोगों की सलाह को सम्मान दें और किसी भी महत्वपूर्ण निर्णय से पहले उसके दीर्घकालिक प्रभाव पर विचार करें।
 
-#### ४. कुंडली में उपस्थित शुभ योग
-* ${yogaSummaryHindi}
+  **४. भविष्य के लिए महत्वपूर्ण संकेत:**
+  - आने वाले समय में धैर्यपूर्वक किए गए प्रयासों से स्थिर प्रगति के अवसर बनेंगे।
+  - भावनात्मक दबाव में निर्णय लेने से बचें और आवश्यक बातों को स्पष्ट शब्दों में रखें।
+  - सीखने, कौशल बढ़ाने और सात्विक संगति से आपके लिए नए मार्ग खुल सकते हैं।
 
-#### ५. शास्त्रसम्मत सात्विक एवं कल्याणकारी उपाय (Sattvik Upay)
-१. **दैनिक मंत्र जप:** प्रतिदिन प्रातः **"ॐ नमः शिवाय"** अथवा **"ॐ नमो भगवते वासुदेवाय"** का शांत मन से १०८ बार जप करें।
-२. **सूर्य देव को अर्घ्य:** प्रातःकाल तांबे के पात्र में स्वच्छ जल लेकर उगते सूर्य को अर्घ्य दें और गायत्री मंत्र का स्मरण करें।
-३. **सद्कर्म एवं दान:** बुधवार या गुरुवार को गाय को हरा चारा अथवा जरूरतमंद को भोजन/अन्न का दान करें।
-४. **आचरण शुद्धि:** माता-पिता और गुरुजनों का आशीर्वाद लें और वाणी में सौम्यता बनाए रखें।
+  **५. सात्विक उपाय:**
+  १. प्रतिदिन प्रातः शांत मन से "ॐ नमः शिवाय" मंत्र का १०८ बार जप करें।
+  २. प्रत्येक रविवार प्रातः स्वच्छ जल से सूर्य देव को अर्घ्य दें और कृतज्ञता प्रकट करें।
+  ३. अपनी सामर्थ्य के अनुसार जरूरतमंद व्यक्ति को भोजन या आवश्यक वस्तु का दान करें।
 
-***
-*Disclaimer: Astrological guidance offers traditional Vedic perspectives for spiritual insight and self-reflection. For medical, financial, or legal matters, please always consult certified professionals alongside Vedic remedies.*`;
+  आपके भीतर परिस्थितियों को संभालने की क्षमता है। विश्वास, संयम और नियमित प्रयास बनाए रखें; समय के साथ आपके लिए शुभ दिशा स्पष्ट होती जाएगी।
+
+  ***
+  *Disclaimer: Astrological guidance offers traditional Vedic perspectives for spiritual insight and self-reflection. For medical, financial, or legal matters, please consult certified professionals.*`;
   }
 
-  // English / Global Reading
-  let focusAnalysisEng = "";
-  if (isMarriage) {
-    const ageNote = age > 0 && age < 18 ? `\n* **Age Profile:** Based on DOB ${dob}, current age is ~${age} years. Education and personal growth are paramount at this stage; marriage timing applies in adulthood.` : "";
-    focusAnalysisEng = `#### 3. Marriage & Relationships (7th Bhava Synthesis)${ageNote}
-* **7th House Structure:** With ${asc} Ascendant, the 7th house sits in **${h7Rashi}**, governed by **${h7Lord}**.
-* **Significators:** 7th lord **${h7Lord}** and Venus (${venusP ? `${venusP.rashi}, House ${venusP.house || 1}` : 'favorable'}) shape relationship foundations.
-* **Manglik Assessment:** ${doshas.manglik?.present ? (doshas.manglik.isCancelled ? 'Manglik present but scripturally cancelled.' : doshas.manglik.severity) : 'No obstructive Manglik dosha.'}
-* **Auspicious Timing:** ${age > 0 && age < 18 ? `In adulthood (ages 24-28), supportive sub-periods of 7th lord/Venus/Jupiter will unlock marriage prospects.` : `Supportive Dasha sub-periods of 7th lord or Jupiter transits open favorable marriage windows.`}`;
-  } else if (isCareer) {
-    focusAnalysisEng = `#### 3. Career & Profession (10th Bhava Synthesis)
-* **Karma & Midheaven:** 10th house is **${h10Rashi}**, ruled by **${h10Lord}**.
-* **Progress Trajectory:** Disciplined mastery under **${dasha}** activates steady professional growth.`;
-  } else {
-    focusAnalysisEng = `#### 3. Contextual Query Analysis (For: "${userQuestion}")
-* **Natal Matrix:** ${asc} Lagna with ${moon} Moon (${nakshatra}).
-* **Active Cycle:** Governed by **${dasha}**.`;
-  }
-
-  return `### ॐ Sri Ganeshay Namah | Authentic Vedic Astrological Reading
-
-**Namaste ${name}.**
-Grounded strictly in your calculated birth chart and classical *Brihat Parashara Hora Shastra (BPHS)*:
-
-#### 1. Core Natal Matrix (Lagna & Chandra)
-* **Ascendant (Lagna):** **${asc}** — Governs vitality, disposition, and outer manifestation.
-* **Moon Sign & Nakshatra:** **${moon}** (${nakshatra}${pada ? ', Pada ' + pada : ''}) — Governs emotional equilibrium and mental clarity.
-* **Sun Position:** **${sun}** — Governs willpower and core vitality.
-
-#### 2. Active Planetary Period (Vimshottari Dasha)
-* **Active Period:** **${dasha}**
-* **Parashari Impact:** Directs primary focus toward deliberate karma, learning, and steady progression.
-
-${focusAnalysisEng}
-
-#### 4. Active Yogas & Alignments
-* ${yogaSummaryHindi}
-
-#### 5. Safe & Sattvik Vedic Remedies (Upay)
-1. **Sacred Mantra:** Chant **"Om Namah Shivaya"** or **"Om Namo Bhagavate Vasudevaya"** 108 times daily in the morning.
-2. **Surya Arghya:** Offer water to the rising morning Sun in a copper vessel with quiet gratitude.
-3. **Sattvik Daan:** Offer grains to birds or cows on Wednesdays/Thursdays.
-4. **Behavioral Dharma:** Respect parents and teachers; maintain truthful, harmonious speech.
-
-***
-*Disclaimer: Astrological guidance offers traditional Vedic perspectives for spiritual insight and self-reflection. For medical, financial, or legal matters, please always consult certified professionals alongside Vedic remedies.*`;
 }
 
 function buildAIChartContext(chartContext: unknown): string {
