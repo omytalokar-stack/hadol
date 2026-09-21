@@ -1,76 +1,85 @@
 {
-  "hash": "f7042f3c",
+  "hash": "93108b3e",
   "configHash": "9d086e2e",
-  "lockfileHash": "739e4e57",
-  "browserHash": "f47c80dd",
+  "lockfileHash": "d86e8121",
+  "browserHash": "cd632a6b",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "45077478",
+      "fileHash": "fefcd2ca",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "5108f1d9",
+      "fileHash": "ce76e272",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "436d99d5",
+      "fileHash": "89de5e98",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "29de4038",
+      "fileHash": "b6478121",
       "needsInterop": true
     },
     "@react-oauth/google": {
       "src": "../../node_modules/@react-oauth/google/dist/index.esm.js",
       "file": "@react-oauth_google.js",
-      "fileHash": "b7fa3ac6",
+      "fileHash": "84fad6bc",
       "needsInterop": false
     },
     "html2canvas": {
       "src": "../../node_modules/html2canvas/dist/html2canvas.esm.js",
       "file": "html2canvas.js",
-      "fileHash": "bd8cc63b",
+      "fileHash": "c3f420b3",
       "needsInterop": false
     },
     "jspdf": {
       "src": "../../node_modules/jspdf/dist/jspdf.es.min.js",
       "file": "jspdf.js",
-      "fileHash": "1c95cabb",
+      "fileHash": "2199818f",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "5412452a",
+      "fileHash": "160e585f",
       "needsInterop": true
+    },
+    "react-markdown": {
+      "src": "../../node_modules/react-markdown/index.js",
+      "file": "react-markdown.js",
+      "fileHash": "846b581e",
+      "needsInterop": false
     }
   },
   "chunks": {
-    "purify.es-O2THQZ2S": {
-      "file": "purify__es-O2THQZ2S.js"
+    "purify.es-YOTKG4GX": {
+      "file": "purify__es-YOTKG4GX.js"
     },
-    "index.es-XSFKXKIK": {
-      "file": "index__es-XSFKXKIK.js"
-    },
-    "chunk-WLKRB4NA": {
-      "file": "chunk-WLKRB4NA.js"
-    },
-    "chunk-ILN6NDMJ": {
-      "file": "chunk-ILN6NDMJ.js"
+    "index.es-CKKKCHFP": {
+      "file": "index__es-CKKKCHFP.js"
     },
     "chunk-SITVF2AJ": {
       "file": "chunk-SITVF2AJ.js"
     },
-    "chunk-EQCVQC35": {
-      "file": "chunk-EQCVQC35.js"
+    "chunk-ZCTEHS5B": {
+      "file": "chunk-ZCTEHS5B.js"
+    },
+    "chunk-HZ33ORIP": {
+      "file": "chunk-HZ33ORIP.js"
+    },
+    "chunk-3R2MIHDY": {
+      "file": "chunk-3R2MIHDY.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
     }
   }
 }

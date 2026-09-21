@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { KundaliData, JyotishChatMessage } from "../types/jyotish";
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../context/AuthContext";
@@ -508,7 +509,13 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
                     : "bg-gradient-to-r from-amber-600 to-amber-700 text-slate-950 font-semibold shadow-md"
                 }`}
               >
-                {msg.text}
+                {isBot ? (
+                  <div className="prose prose-invert prose-sm max-w-none prose-headings:font-serif prose-headings:text-amber-100 prose-strong:text-amber-200 prose-a:text-amber-300 prose-li:marker:text-amber-400">
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </div>
+                ) : (
+                  msg.text
+                )}
 
                 {isErrorMsg && (
                   <div className="mt-3 pt-2 border-t border-rose-900/40 flex items-center gap-2">

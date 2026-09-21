@@ -3,7 +3,7 @@ import {
 } from "./chunk-SITVF2AJ.js";
 import {
   __publicField
-} from "./chunk-EQCVQC35.js";
+} from "./chunk-DC5AMYBS.js";
 
 // node_modules/fflate/esm/browser.js
 var ch2 = {};
@@ -13359,7 +13359,7 @@ function le() {
     });
   }
   function n() {
-    return (i.DOMPurify ? Promise.resolve(i.DOMPurify) : import("./purify.es-O2THQZ2S.js")).catch(function(t2) {
+    return (i.DOMPurify ? Promise.resolve(i.DOMPurify) : import("./purify.es-YOTKG4GX.js")).catch(function(t2) {
       return Promise.reject(new Error("Could not load dompurify: " + t2));
     }).then(function(t2) {
       return t2.default ? t2.default : t2;
@@ -14061,7 +14061,7 @@ function le() {
   var h2 = l2.getContext("2d");
   h2.fillStyle = "#fff", h2.fillRect(0, 0, l2.width, l2.height);
   var f2 = { ignoreMouse: true, ignoreAnimation: true, ignoreDimensions: true }, d2 = this;
-  return (i.canvg ? Promise.resolve(i.canvg) : import("./index.es-XSFKXKIK.js")).catch(function(t3) {
+  return (i.canvg ? Promise.resolve(i.canvg) : import("./index.es-CKKKCHFP.js")).catch(function(t3) {
     return Promise.reject(new Error("Could not load canvg: " + t3));
   }).then(function(t3) {
     return t3.default ? t3.default : t3;
