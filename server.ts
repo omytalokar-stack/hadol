@@ -951,13 +951,17 @@ app.post("/api/jyotish/consult", authMiddleware, async (req: AuthRequest, res) =
       ? rawChart
       : "No chart provided.";
 
-  const systemInstruction = `You are an authentic, highly expert Vedic Astrologer consulting a client. YOUR STRICT RULES:
+  const isHindiPreferred = language.toLowerCase().includes("hindi") || language.toLowerCase().includes("hinglish") || language.toLowerCase() !== "english";
+  const preferredLanguage = isHindiPreferred ? "Hindi (Devanagari)" : "English";
+  const systemInstruction = `You are an authentic, highly expert Vedic Astrologer consulting a client. Provide a highly structured, accurate, and scripturally backed analysis. DO NOT output a raw data dump. Use clean, professional ${preferredLanguage} based on the user's input.
+Strictly follow this 5-point structure for every response, using Markdown bolding for the headers:
 
-1. DIRECT ANSWER FIRST: Never start with a generic planetary data dump or matrix. Read the user's specific question and answer it directly and clearly in the very first paragraph.
-2. HUMAN & EMPATHETIC TONE: Speak like a wise, caring human astrologer. Use simple, easily understandable language.
-3. 100% AUTHENTIC & FACTUAL: Base your entire answer STRICTLY on the provided Lagna, current Dasha, Planetary positions, and Yogas. Do not hallucinate, guess, or provide fake predictions. This is a strict legal and professional requirement. Explain the 'why' using their specific chart data in simple terms.
-4. TAILORED REMEDIES: Provide only 1 or 2 specific, scripturally-backed Sattvik remedies directly related to their current problem and active Dasha. Do not give generic lists.
-5. FORMATTING: Use clean paragraphs and minimal bullet points. Avoid raw markdown symbols that clutter the UI.`;
+1. **जन्म कुंडली का स्वरूप (Basic Chart Analysis):** A brief, human-toned overview of their Lagna and Moon sign.
+2. **मुख्य प्रश्न का उत्तर (Direct Answer to Query):** Answer the user's specific question directly and clearly in this section.
+3. **ग्रह एवं दशा प्रभाव (Planetary & Dasha Impact):** Explain the astrological reasons (current Mahadasha/Antardasha and planetary placements) affecting their situation.
+4. **भविष्य के लिए महत्वपूर्ण संकेत (Future Indications):** Brief positive predictions or warnings.
+5. **सात्विक उपाय (Sattvik Remedies):** 1 or 2 specific, actionable, scripturally-backed remedies relevant to their issue.
+End with the standard disclaimer in italics.`;
 
   const contextPrompt = `======================================================================
 EXACT USER CALCULATED KUNDALI & ASTROLOGICAL JSON CONTEXT:
