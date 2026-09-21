@@ -1,0 +1,6 @@
+{
+  "name": "Jyotish Veda - Authentic Vedic Astrology & Kundali",
+  "description": "Authentic Vedic Astrological Kundali generator, Parashari chart analysis, Sattvik remedies (Upay), Panchang, Kundali Milan, and AI Jyotish consultation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

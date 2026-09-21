@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@media print {
+	body * {
+		visibility: hidden;
+	}
+
+	.print-report-overlay,
+	.print-report-overlay * {
+		visibility: visible;
+	}
+
+	.print-report-overlay {
+		position: absolute !important;
+		inset: 0 !important;
+		display: block !important;
+		overflow: visible !important;
+		padding: 0 !important;
+		background: white !important;
+	}
+
+	.print-report-card {
+		max-width: none !important;
+		max-height: none !important;
+		overflow: visible !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		box-shadow: none !important;
+		background: white !important;
+		color: black !important;
+	}
+}
