@@ -902,6 +902,51 @@ ${focusAnalysisEng}
 *Disclaimer: Astrological guidance offers traditional Vedic perspectives for spiritual insight and self-reflection. For medical, financial, or legal matters, please always consult certified professionals alongside Vedic remedies.*`;
 }
 
+function buildAIChartContext(chartContext: unknown): string {
+  let chart: any = chartContext;
+  if (typeof chartContext === "string") {
+    try {
+      chart = JSON.parse(chartContext);
+    } catch {
+      return `User chart facts for internal interpretation: ${chartContext}`;
+    }
+  }
+
+  if (!chart || typeof chart !== "object") return "No chart facts were provided.";
+
+  const ascendant = chart.ascendantLagna || chart.ascendant || {};
+  const moon = chart.moonSignChandra || chart.moonSign || {};
+  const sun = chart.sunSignSurya || chart.sunSign || {};
+  const currentDasha = chart.currentVimshottariDasha || chart.currentDasha || "not provided";
+  const dashaText = typeof currentDasha === "string"
+    ? currentDasha
+    : currentDasha.dashaSummary || [currentDasha.mahadasha?.planet, currentDasha.antardasha?.planet].filter(Boolean).join(" mahadasha / ") || "not provided";
+  const planets = Array.isArray(chart.planetaryPositions) ? chart.planetaryPositions : Array.isArray(chart.planets) ? chart.planets : [];
+  const yogas = Array.isArray(chart.yogasDetected) ? chart.yogasDetected : Array.isArray(chart.yogas) ? chart.yogas : [];
+  const placementText = (placement: any, fallback: string) => {
+    if (typeof placement === "string") return placement;
+    return [placement.rashi || placement.sign, placement.house ? `house ${placement.house}` : "", placement.rashiLord ? `lord ${placement.rashiLord}` : ""]
+      .filter(Boolean)
+      .join(", ") || fallback;
+  };
+  const planetText = planets.map((planet: any) => {
+    const name = planet.sanskritName || planet.planet || planet.name || "Unnamed planet";
+    return `${name} is in ${placementText(planet, "an unspecified placement")}`;
+  }).join("; ") || "No planetary placements were provided.";
+  const yogaText = yogas.map((yoga: any) => typeof yoga === "string" ? yoga : yoga.name).filter(Boolean).join(", ") || "No specific yogas were provided.";
+
+  return [
+    "User chart facts for internal interpretation only.",
+    `The person's Lagna is ${placementText(ascendant, "not provided")}.`,
+    `The Moon sign is ${placementText(moon, "not provided")}.`,
+    `The Sun placement is ${placementText(sun, "not provided")}.`,
+    `The current Vimshottari Dasha is ${dashaText}.`,
+    `Planetary placements: ${planetText}.`,
+    `Detected Yogas: ${yogaText}.`,
+    "Use these facts to write the requested conversational consultation. Do not reproduce this data as a report or expose internal formatting."
+  ].join("\n");
+}
+
 // API: AI Vedic Astrologer Consultation
 app.post("/api/jyotish/consult", authMiddleware, async (req: AuthRequest, res) => {
   if (!(await requireMongo(res))) return;
@@ -944,12 +989,7 @@ app.post("/api/jyotish/consult", authMiddleware, async (req: AuthRequest, res) =
   }
 
   const userQuestion = rawQuestion.trim();
-  const chartContext =
-    typeof rawChart === "object"
-      ? JSON.stringify(rawChart, null, 2)
-      : typeof rawChart === "string"
-      ? rawChart
-      : "No chart provided.";
+  const chartContext = buildAIChartContext(rawChart);
 
   const systemInstruction = `You are a wise, empathetic, and authentic Vedic Astrologer. You must provide a conversational, highly structured consultation.
 STRICT RULES:
