@@ -511,7 +511,7 @@ app.get("/api/geocode", async (req, res) => {
 
     const fetchResponse = await fetch(nominatimUrl, {
       headers: {
-        "User-Agent": "JyotishVeda-AstrologyApp/1.0 (contact: support@jyotishveda.app)",
+        "User-Agent": "JyotishVedaApp/1.0",
         Accept: "application/json",
       },
     });
