@@ -1,55 +1,55 @@
 {
-  "hash": "d0cec02b",
-  "configHash": "6a5a008e",
-  "lockfileHash": "ce229e6c",
-  "browserHash": "c239b2c8",
+  "hash": "f7042f3c",
+  "configHash": "9d086e2e",
+  "lockfileHash": "739e4e57",
+  "browserHash": "f47c80dd",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "c7835d32",
+      "fileHash": "45077478",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "120e80b4",
+      "fileHash": "5108f1d9",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "78fce0d9",
+      "fileHash": "436d99d5",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "265cda72",
+      "fileHash": "29de4038",
       "needsInterop": true
     },
     "@react-oauth/google": {
       "src": "../../node_modules/@react-oauth/google/dist/index.esm.js",
       "file": "@react-oauth_google.js",
-      "fileHash": "92fa7753",
+      "fileHash": "b7fa3ac6",
       "needsInterop": false
     },
     "html2canvas": {
       "src": "../../node_modules/html2canvas/dist/html2canvas.esm.js",
       "file": "html2canvas.js",
-      "fileHash": "3ab8b023",
+      "fileHash": "bd8cc63b",
       "needsInterop": false
     },
     "jspdf": {
       "src": "../../node_modules/jspdf/dist/jspdf.es.min.js",
       "file": "jspdf.js",
-      "fileHash": "5f9c9b22",
+      "fileHash": "1c95cabb",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "1b14b444",
+      "fileHash": "5412452a",
       "needsInterop": true
     }
   },

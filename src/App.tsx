@@ -22,6 +22,7 @@ import { BirthDataForm } from "./components/BirthDataForm";
 import { PrintKundaliReport } from "./components/PrintKundaliReport";
 import { ExecutiveSummaryCard } from "./components/ExecutiveSummaryCard";
 import { GlossaryTooltip } from "./components/GlossaryTooltip";
+import { Settings } from "./components/Settings";
 import { apiUrl } from "./utils/api";
 
 type AdminRecord = {
@@ -1047,6 +1048,12 @@ function AppShell() {
                 Admin
               </a>
             )}
+            <a
+              href="/settings"
+              className="text-slate-300 hover:text-amber-200 border border-slate-700 hover:border-amber-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors"
+            >
+              Settings
+            </a>
             {saveStatus && (
               <span
                 className="text-[10px] text-slate-400 max-w-32 truncate"
@@ -1313,6 +1320,7 @@ function AppShell() {
 
 export default function App() {
   const { user, loading } = useAuth();
+  if (window.location.pathname === "/settings") return <Settings />;
   if (window.location.pathname !== "/admin") return <AppShell />;
   if (loading)
     return (
