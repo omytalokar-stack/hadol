@@ -16,7 +16,23 @@ export interface GeocodedLocation {
   longitude: number;
   timezone: number; // UTC offset in hours (e.g. +5.5 for IST)
   timezoneName?: string;
+  isFallback?: boolean;
+  fallbackQuery?: string;
 }
+
+const DEFAULT_LOCATION: GeocodedLocation = {
+  displayName: "New Delhi, Delhi, India",
+  shortName: "New Delhi, India",
+  city: "New Delhi",
+  state: "Delhi",
+  country: "India",
+  countryCode: "in",
+  latitude: 28.6139,
+  longitude: 77.209,
+  timezone: 5.5,
+  timezoneName: "IST (Indian Standard Time)",
+  isFallback: true,
+};
 
 /**
  * Calculates standard or country-specific UTC timezone offset from coordinates & country code
@@ -160,14 +176,13 @@ export function estimateTimezoneOffset(
 }
 
 /**
- * Searches locations using local backend proxy or direct Nominatim fallback
+ * Searches locations through the backend proxy, which owns external geocoding and fallback handling.
  */
 export async function searchLocations(query: string): Promise<GeocodedLocation[]> {
   if (!query || query.trim().length < 2) return [];
 
   const cleanQuery = query.trim();
 
-  // Try backend proxy first
   try {
     const res = await fetch(
       apiUrl(`/api/geocode?q=${encodeURIComponent(cleanQuery)}`)
@@ -179,59 +194,8 @@ export async function searchLocations(query: string): Promise<GeocodedLocation[]
       }
     }
   } catch {
-    // Fallback to direct client-side Nominatim fetch
+    console.warn("Location service unavailable; using Delhi as the default location.");
   }
 
-  // Direct OpenStreetMap Nominatim fetch fallback
-  try {
-    const directUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-      cleanQuery
-    )}&limit=8&addressdetails=1`;
-    const res = await fetch(directUrl, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (!res.ok) return [];
-    const items = await res.json();
-
-    return items.map((item: any) => {
-      const lat = parseFloat(item.lat);
-      const lon = parseFloat(item.lon);
-      const addr = item.address || {};
-      const countryCode = addr.country_code || "";
-      const city =
-        addr.city ||
-        addr.town ||
-        addr.village ||
-        addr.municipality ||
-        addr.suburb ||
-        item.name ||
-        "";
-      const state = addr.state || addr.province || addr.region || "";
-      const country = addr.country || "";
-
-      const shortParts = [city, state, country].filter(Boolean);
-      const shortName = shortParts.join(", ") || item.display_name.split(",").slice(0, 3).join(",");
-
-      const tzInfo = estimateTimezoneOffset(lat, lon, countryCode);
-
-      return {
-        displayName: item.display_name,
-        shortName,
-        city,
-        state,
-        country,
-        countryCode,
-        latitude: parseFloat(lat.toFixed(4)),
-        longitude: parseFloat(lon.toFixed(4)),
-        timezone: tzInfo.offset,
-        timezoneName: tzInfo.name,
-      };
-    });
-  } catch (err) {
-    console.error("Geocoding fetch error:", err);
-    return [];
-  }
+  return [{ ...DEFAULT_LOCATION, fallbackQuery: cleanQuery }];
 }

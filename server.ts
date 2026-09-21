@@ -471,6 +471,26 @@ function getServerTimezoneOffset(lat: number, lon: number, countryCode: string =
 
 // In-memory cache for fast search responses
 const geocodeCache = new Map<string, any>();
+const DEFAULT_GEOCODE_RESULT = {
+  displayName: "New Delhi, Delhi, India",
+  shortName: "New Delhi, India",
+  city: "New Delhi",
+  state: "Delhi",
+  country: "India",
+  countryCode: "in",
+  latitude: 28.6139,
+  longitude: 77.2090,
+  timezone: 5.5,
+  timezoneName: "IST (Indian Standard Time)",
+  isFallback: true,
+};
+
+function getGeocodeFallback(query: string) {
+  return [{
+    ...DEFAULT_GEOCODE_RESULT,
+    fallbackQuery: query,
+  }];
+}
 
 // API: Geocode / City Search (OpenStreetMap Nominatim proxy)
 app.get("/api/geocode", async (req, res) => {
@@ -497,10 +517,18 @@ app.get("/api/geocode", async (req, res) => {
     });
 
     if (!fetchResponse.ok) {
-      return res.status(fetchResponse.status).json({ error: "Geocoding service unavailable" });
+      console.warn(`Geocoding service returned HTTP ${fetchResponse.status}; using default coordinates.`);
+      const fallback = getGeocodeFallback(query);
+      geocodeCache.set(cacheKey, fallback);
+      return res.json(fallback);
     }
 
     const items = await fetchResponse.json();
+    if (!Array.isArray(items) || items.length === 0) {
+      const fallback = getGeocodeFallback(query);
+      geocodeCache.set(cacheKey, fallback);
+      return res.json(fallback);
+    }
     const formatted = (items || []).map((item: any) => {
       const lat = parseFloat(item.lat);
       const lon = parseFloat(item.lon);
@@ -545,7 +573,9 @@ app.get("/api/geocode", async (req, res) => {
     res.json(formatted);
   } catch (error: any) {
     console.error("Geocoding proxy error:", error);
-    res.status(500).json({ error: "Failed to fetch location coordinates" });
+    const fallback = getGeocodeFallback(query);
+    geocodeCache.set(cacheKey, fallback);
+    return res.json(fallback);
   }
 });
 
