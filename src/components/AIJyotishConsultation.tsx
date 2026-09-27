@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { KundaliData, JyotishChatMessage } from "../types/jyotish";
 import { GoogleLogin } from "@react-oauth/google";
+import { ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { apiUrl } from "../utils/api";
 
 interface AIJyotishConsultationProps {
   kundali: KundaliData;
   initialQuestion?: string;
+  onBack: () => void;
 }
 
 export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
   kundali,
   initialQuestion,
+  onBack,
 }) => {
   const { user, token, login, updateUser } = useAuth();
   const [inputQuery, setInputQuery] = useState("");
@@ -411,13 +414,47 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
   };
 
   if (!user) {
-    return <div className="rounded-2xl border border-amber-500/50 bg-gradient-to-r from-amber-950/80 to-slate-900 p-8 text-center shadow-xl"><div className="mx-auto max-w-xl"><p className="text-3xl text-amber-300">ॐ</p><h2 className="mt-2 text-xl font-semibold text-amber-100">Sign in with Google to consult the AI Astrologer</h2><p className="mt-3 text-sm text-slate-300">Your free Kundali, Lagna, Dashas and Panchang remain available without sign-in.</p><div className="mt-5 flex justify-center"><GoogleLogin onSuccess={(response) => void login(response)} onError={() => undefined} theme="filled_black" text="signin_with" shape="pill" /></div></div></div>;
+    return (
+      <div className="flex h-full min-h-0 flex-col bg-slate-950 md:h-auto md:rounded-2xl md:border md:border-amber-500/50 md:bg-gradient-to-r md:from-amber-950/80 md:to-slate-900 md:p-8 md:shadow-xl">
+        <div className="flex h-14 shrink-0 items-center gap-3 border-b border-amber-900/40 px-4 md:hidden">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg px-2 text-sm font-semibold text-amber-200 hover:bg-slate-900"
+          >
+            <ArrowLeft size={19} aria-hidden="true" />
+            Back
+          </button>
+          <span className="font-semibold text-amber-100">AI Jyotish</span>
+        </div>
+        <div className="flex flex-1 items-center justify-center p-4 text-center md:flex-none">
+          <div className="mx-auto max-w-xl rounded-2xl border border-amber-500/50 bg-gradient-to-r from-amber-950/80 to-slate-900 p-6 shadow-xl md:border-0 md:bg-transparent md:p-0 md:shadow-none">
+            <p className="text-3xl text-amber-300">ॐ</p>
+            <h2 className="mt-2 text-xl font-semibold text-amber-100">Sign in with Google to consult the AI Astrologer</h2>
+            <p className="mt-3 text-sm text-slate-300">Your free Kundali, Lagna, Dashas and Panchang remain available without sign-in.</p>
+            <div className="mt-5 flex justify-center"><GoogleLogin onSuccess={(response) => void login(response)} onError={() => undefined} theme="filled_black" text="signin_with" shape="pill" /></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div id="ai-jyotish-consultation-section" className="min-w-0 bg-slate-900 border border-amber-900/40 rounded-2xl p-3 sm:p-6 shadow-xl flex flex-col h-[min(72dvh,760px)] min-h-[500px] sm:h-[760px]">
+    <div id="ai-jyotish-consultation-section" className="flex h-full min-h-0 min-w-0 flex-col bg-slate-950 md:h-[760px] md:rounded-2xl md:border md:border-amber-900/40 md:bg-slate-900 md:p-6 md:shadow-xl">
+      <div className="flex h-14 shrink-0 items-center gap-3 border-b border-amber-900/40 px-4 md:hidden">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex min-h-11 items-center gap-2 rounded-lg px-2 text-sm font-semibold text-amber-200 hover:bg-slate-900"
+        >
+          <ArrowLeft size={19} aria-hidden="true" />
+          Back
+        </button>
+        <span className="font-semibold text-amber-100">AI Jyotish</span>
+      </div>
+
       {/* Header Bar */}
-      <div className="flex min-w-0 flex-col items-stretch justify-between gap-3 pb-4 border-b border-amber-900/30 sm:flex-row sm:items-center">
+      <div className="hidden min-w-0 flex-col items-stretch justify-between gap-3 border-b border-amber-900/30 pb-4 md:flex md:flex-row md:items-center">
         <div className="flex min-w-0 items-start gap-2 sm:gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-serif text-xl font-bold shadow-md">
             ॐ
@@ -474,7 +511,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
       </div>
 
       {/* Chat Messages Container */}
-      <div className="min-h-0 flex-1 overflow-y-auto my-3 pr-1 space-y-4 font-sans text-xs sm:my-4 sm:text-sm">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3 font-sans text-xs space-y-4 md:my-4 md:px-0 md:py-0 md:pr-1 md:text-sm">
         {messages.map((msg) => {
           const isBot = msg.sender === "astrologer";
           const isMsgSpeaking = isSpeaking && activeSpeechId === msg.id;
@@ -548,7 +585,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
       </div>
 
       {/* Quick Prompts Selector */}
-      <div className="mb-3 pt-2 border-t border-amber-900/20">
+      <div className="hidden mb-3 pt-2 border-t border-amber-900/20 md:block">
         <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block mb-1.5">
           {language === "English" ? "Suggested Inquiries:" : "त्वरित प्रश्न (Click to Ask):"}
         </span>
@@ -567,7 +604,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
       </div>
 
       {/* Message Input Box */}
-      <div className="relative flex min-w-0 items-stretch gap-2">
+      <div className="relative mx-3 mb-[max(0.75rem,env(safe-area-inset-bottom))] flex min-w-0 shrink-0 items-stretch gap-2 md:mx-0 md:mb-0">
         <input
           id="jyotish-question-input"
           type="text"
@@ -600,7 +637,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
       </div>
 
       {/* Disclaimer */}
-      <p className="text-[10px] text-slate-500 text-center mt-2.5">
+      <p className="hidden text-[10px] text-slate-500 text-center mt-2.5 md:block">
         ⚖️ <strong>Astrological Disclaimer:</strong> Vedic Astrology is a sacred guide for spiritual self-reflection and wisdom. It does not replace certified medical, legal, psychological, or financial counseling.
       </p>
     </div>

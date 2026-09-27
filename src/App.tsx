@@ -6,7 +6,7 @@ import React, {
   type FormEvent,
 } from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import { Menu, X } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 import { useAuth } from "./context/AuthContext";
 import { BirthData, KundaliData } from "./types/jyotish";
 import { calculateKundali } from "./utils/vedicCalculations";
@@ -869,7 +869,7 @@ function AppShell() {
   const [activeTab, setActiveTab] = useState<
     "kundali" | "consultation" | "remedies" | "panchang" | "milan"
   >("kundali");
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isMobileActionsOpen, setIsMobileActionsOpen] = useState(false);
   const [consultationPrompt, setConsultationPrompt] = useState<string>("");
   const [selectedHouse, setSelectedHouse] = useState<number>(1);
   const [chartType, setChartType] = useState<"D1" | "D9">("D1");
@@ -911,6 +911,11 @@ function AppShell() {
     setActiveTab("consultation");
   };
 
+  const handleLeaveConsultation = () => {
+    setActiveTab("kundali");
+    setConsultationPrompt("");
+  };
+
   const handleSaveKundli = async () => {
     if (!token || !user) {
       setSaveStatus("Sign in with Google to save a Kundli.");
@@ -938,10 +943,10 @@ function AppShell() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-amber-500/30 selection:text-amber-200">
+    <div className={`min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-amber-500/30 selection:text-amber-200 ${activeTab === "consultation" ? "max-md:fixed max-md:inset-0 max-md:z-50 max-md:h-[100dvh] max-md:min-h-0 max-md:overflow-hidden" : ""}`}>
       {/* Top Sacred Header */}
-      <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-amber-900/40 shadow-lg">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <header className={`sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-amber-900/40 shadow-lg ${activeTab === "consultation" ? "max-md:hidden" : ""}`}>
+        <div className="relative max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
           {/* Logo & Branding */}
           <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-serif font-bold text-xl shadow-md border border-amber-300/40">
@@ -956,14 +961,51 @@ function AppShell() {
                   (ज्योतिष वेद)
                 </span>
               </div>
-              <p className="max-w-[210px] truncate text-[10px] text-slate-400 sm:max-w-none sm:text-[11px]">
+              <p className="hidden max-w-[210px] truncate text-[10px] text-slate-400 sm:block sm:max-w-none sm:text-[11px]">
                 Parashari Sidereal Kundali & Authentic Sattvik Upay
               </p>
             </div>
           </div>
 
+          <button
+            type="button"
+            aria-label={isMobileActionsOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileActionsOpen}
+            aria-controls="mobile-app-menu"
+            onClick={() => setIsMobileActionsOpen((open) => !open)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-amber-900/50 text-amber-200 hover:bg-slate-900 md:hidden"
+          >
+            <MoreVertical size={21} aria-hidden="true" />
+          </button>
+
           {/* Simple / Expert Mode Switch & Action Controls */}
-          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2 sm:gap-3">
+          <div
+            id="mobile-app-menu"
+            className={`min-w-0 flex-wrap items-center justify-end gap-2 sm:gap-3 ${isMobileActionsOpen ? "absolute right-3 top-full z-50 flex w-[min(22rem,calc(100vw-1.5rem))] max-h-[calc(100dvh-5rem)] flex-col items-stretch overflow-y-auto rounded-xl border border-amber-900/50 bg-slate-950 p-3 shadow-2xl md:static md:max-h-none md:w-auto md:flex-row md:overflow-visible md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none" : "hidden md:flex"}`}
+          >
+            <nav aria-label="Main navigation" className="flex flex-col gap-1 border-b border-amber-900/40 pb-2 md:hidden">
+              {[
+                { id: "kundali", label: "Lagna & Bhavas", icon: "🔯" },
+                { id: "consultation", label: "AI Astrologer", icon: "✨" },
+                { id: "remedies", label: "Sattvik Upay", icon: "🌿" },
+                { id: "panchang", label: "Dainik Panchang", icon: "🌞" },
+                { id: "milan", label: "Kundali Milan", icon: "💍" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveTab(tab.id as typeof activeTab);
+                    setIsMobileActionsOpen(false);
+                  }}
+                  className={`flex min-h-11 w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold ${activeTab === tab.id ? "bg-amber-500 text-slate-950" : "text-slate-200 hover:bg-slate-900"}`}
+                >
+                  <span aria-hidden="true">{tab.icon}</span>
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </nav>
+
             {/* Simple / Expert Mode Toggle */}
             <div className="flex items-center bg-slate-900 border border-amber-900/60 rounded-xl p-1 shadow-inner">
               <button
@@ -1069,25 +1111,9 @@ function AppShell() {
         </div>
 
         {/* Navigation Tabs Bar */}
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between pb-2 md:hidden">
-          <span className="text-xs font-semibold text-amber-200">
-            {activeTab === "kundali" ? "Lagna & Bhavas" : activeTab === "consultation" ? "AI Astrologer" : activeTab === "remedies" ? "Sattvik Upay" : activeTab === "panchang" ? "Dainik Panchang" : "Kundali Milan"}
-          </span>
-          <button
-            type="button"
-            aria-expanded={isMobileNavOpen}
-            aria-controls="primary-navigation"
-            aria-label={isMobileNavOpen ? "Close navigation menu" : "Open navigation menu"}
-            onClick={() => setIsMobileNavOpen((open) => !open)}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-amber-900/50 text-amber-200 hover:bg-slate-900"
-          >
-            {isMobileNavOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
-          </button>
-        </div>
         <nav
-          id="primary-navigation"
           aria-label="Main navigation"
-          className={`${isMobileNavOpen ? "flex" : "hidden"} max-w-7xl mx-auto px-3 sm:px-6 flex-col gap-1 pb-3 md:flex md:flex-row md:overflow-x-auto md:pb-2 scrollbar-none`}
+          className="hidden max-w-7xl mx-auto px-3 sm:px-6 md:flex md:flex-row md:overflow-x-auto md:pb-2 scrollbar-none"
         >
           {[
             { id: "kundali", label: "Lagna & Bhavas (जन्म चक्र)", icon: "🔯" },
@@ -1107,7 +1133,6 @@ function AppShell() {
                 id={`nav-tab-${tab.id}`}
                 onClick={() => {
                   setActiveTab(tab.id as any);
-                  setIsMobileNavOpen(false);
                 }}
                 className={`min-h-11 w-full px-3.5 py-2 rounded-xl text-left text-xs sm:w-auto sm:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer ${
                   isActive
@@ -1124,7 +1149,7 @@ function AppShell() {
       </header>
 
       {/* Main App Body */}
-      <main className="min-w-0 flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-5 sm:space-y-6">
+      <main className={`min-w-0 flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-5 sm:space-y-6 ${activeTab === "consultation" ? "max-md:h-full max-md:min-h-0 max-md:max-w-none max-md:p-0 max-md:space-y-0" : ""}`}>
         {/* VIEW 1: KUNDALI & BHAVAS */}
         {activeTab === "kundali" && (
           <div className="space-y-6">
@@ -1286,6 +1311,7 @@ function AppShell() {
           <AIJyotishConsultation
             kundali={kundali}
             initialQuestion={consultationPrompt}
+            onBack={handleLeaveConsultation}
           />
         )}
 
@@ -1300,7 +1326,7 @@ function AppShell() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-amber-900/30 py-6 mt-12 text-center text-xs text-slate-500">
+      <footer className={`bg-slate-950 border-t border-amber-900/30 py-6 mt-12 text-center text-xs text-slate-500 ${activeTab === "consultation" ? "max-md:hidden" : ""}`}>
         <div className="max-w-7xl mx-auto px-4 space-y-2">
           <p className="font-serif text-amber-400/80">
             ॐ द्यौः शान्तिरन्तरिक्षं शान्तिः पृथिवी शान्तिरापः शान्तिरोषधयः
