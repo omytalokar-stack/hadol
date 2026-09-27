@@ -17,13 +17,13 @@ export function Settings({ installPrompt }: { installPrompt: InstallPromptState 
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 sm:px-8">
       <div className="mx-auto max-w-3xl space-y-6">
-        <header className="flex items-center justify-between border-b border-amber-900/40 pb-5">
+        <header className="flex flex-col items-start justify-between gap-4 border-b border-amber-900/40 pb-5 sm:flex-row sm:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-amber-500">Jyotish Veda</p>
-            <h1 className="mt-1 font-serif text-3xl font-bold text-amber-100">Settings</h1>
+            <h1 className="mt-1 font-serif text-2xl font-bold text-amber-100 sm:text-3xl">Settings</h1>
             <p className="mt-1 text-sm text-slate-400">Manage your app experience.</p>
           </div>
-          <a href="/" className="rounded-lg border border-amber-900/50 px-3 py-2 text-sm text-amber-300">
+          <a href="/" className="inline-flex min-h-11 items-center rounded-lg border border-amber-900/50 px-4 py-2 text-sm text-amber-300">
             Return to app
           </a>
         </header>
@@ -37,7 +37,7 @@ export function Settings({ installPrompt }: { installPrompt: InstallPromptState 
             <button
               type="button"
               onClick={() => void handleInstall()}
-              className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-amber-400"
+              className="min-h-11 w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-amber-400 sm:w-auto"
             >
               {isInstalled ? "App Installed" : "Install App"}
             </button>

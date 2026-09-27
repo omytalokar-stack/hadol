@@ -105,9 +105,9 @@ export const DashaTimeline: React.FC<DashaTimelineProps> = ({
               {/* Mahadasha Header */}
               <button
                 onClick={() => setExpandedMaha(isExpanded ? null : maha.planet)}
-                className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer"
+                className="w-full min-w-0 p-3 flex flex-col items-stretch gap-3 text-left cursor-pointer sm:flex-row sm:items-center sm:justify-between sm:p-3.5"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-start gap-2 sm:items-center sm:gap-3">
                   <span
                     className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${
                       isCurrent
@@ -117,8 +117,8 @@ export const DashaTimeline: React.FC<DashaTimelineProps> = ({
                   >
                     {maha.planet.substring(0, 2)}
                   </span>
-                  <div>
-                    <div className="flex items-center gap-2">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                       <h4 className="text-sm font-bold text-amber-100 font-serif">
                         {maha.planet} Mahadasha ({maha.sanskritName.split(" ")[0]})
                       </h4>
@@ -128,13 +128,13 @@ export const DashaTimeline: React.FC<DashaTimelineProps> = ({
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-400">
+                    <p className="break-words text-[11px] leading-relaxed text-slate-400 sm:text-xs">
                       {maha.startDate} → {maha.endDate} • Duration: {maha.durationYears} yrs (Age: {maha.startAge} to {maha.endAge})
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs text-amber-400 font-medium">
+                <div className="flex min-h-10 items-center justify-between gap-2 text-xs text-amber-400 font-medium sm:justify-end">
                   <span>{isExpanded ? "Collapse" : "Explore Antardashas"}</span>
                   <span className="text-base">{isExpanded ? "▲" : "▼"}</span>
                 </div>

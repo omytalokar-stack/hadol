@@ -415,37 +415,37 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
   }
 
   return (
-    <div id="ai-jyotish-consultation-section" className="bg-slate-900 border border-amber-900/40 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col h-[760px]">
+    <div id="ai-jyotish-consultation-section" className="min-w-0 bg-slate-900 border border-amber-900/40 rounded-2xl p-3 sm:p-6 shadow-xl flex flex-col h-[min(72dvh,760px)] min-h-[500px] sm:h-[760px]">
       {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-amber-900/30">
-        <div className="flex items-center gap-3">
+      <div className="flex min-w-0 flex-col items-stretch justify-between gap-3 pb-4 border-b border-amber-900/30 sm:flex-row sm:items-center">
+        <div className="flex min-w-0 items-start gap-2 sm:gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-slate-950 font-serif text-xl font-bold shadow-md">
             ॐ
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-base sm:text-lg font-bold text-amber-100 font-serif">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <h3 className="text-sm sm:text-lg font-bold text-amber-100 font-serif">
                 Parashari Vedic Astrologer
               </h3>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/40">
+              <span className="max-w-full px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] sm:text-[10px] font-bold border border-emerald-500/40">
                 Live & Accurate (सत्य व प्रामाणिक)
               </span>
             </div>
-            <p className="text-xs text-amber-300/70">
+            <p className="mt-1 text-[10px] leading-relaxed text-amber-300/70 sm:text-xs">
               Grounded in Brihat Parashara Hora Shastra • Real Calculations • Safe Sattvik Upay
             </p>
           </div>
         </div>
 
         {/* Controls: Language Pills & Category */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           {/* Language Toggle Pills */}
           <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-amber-900/40">
             {(["Hindi", "Hinglish", "English"] as const).map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
-                className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                className={`min-h-10 px-2 py-1 text-[11px] sm:px-2.5 sm:text-xs font-semibold rounded-md transition-all cursor-pointer ${
                   language === lang
                     ? "bg-amber-500 text-slate-950 shadow-sm"
                     : "text-slate-400 hover:text-amber-200"
@@ -460,7 +460,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as any)}
-            className="bg-slate-800 text-amber-200 border border-amber-900/40 rounded-lg px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-amber-400"
+            className="min-h-10 max-w-full bg-slate-800 text-amber-200 border border-amber-900/40 rounded-lg px-2.5 py-2 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-amber-400"
           >
             <option value="General">General / समग्र</option>
             <option value="Career">Career & Karma (10th Bhava)</option>
@@ -474,7 +474,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
       </div>
 
       {/* Chat Messages Container */}
-      <div className="flex-1 overflow-y-auto my-4 pr-1 space-y-4 font-sans text-xs sm:text-sm">
+      <div className="min-h-0 flex-1 overflow-y-auto my-3 pr-1 space-y-4 font-sans text-xs sm:my-4 sm:text-sm">
         {messages.map((msg) => {
           const isBot = msg.sender === "astrologer";
           const isMsgSpeaking = isSpeaking && activeSpeechId === msg.id;
@@ -483,7 +483,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
           return (
             <div
               key={msg.id}
-              className={`flex flex-col ${isBot ? "items-start" : "items-end"}`}
+              className={`flex min-w-0 flex-col ${isBot ? "items-start" : "items-end"}`}
             >
               <div className="flex items-center gap-2 mb-1 px-1 text-[11px] text-slate-400">
                 <span>{isBot ? "ज्योतिष आचार्य (Acharya)" : "आप (You)"}</span>
@@ -501,7 +501,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
               </div>
 
               <div
-                className={`p-4 rounded-2xl max-w-2xl leading-relaxed whitespace-pre-wrap ${
+                className={`w-fit max-w-full p-3 sm:p-4 rounded-2xl sm:max-w-2xl leading-relaxed whitespace-pre-wrap break-words ${
                   isBot
                     ? isErrorMsg
                       ? "bg-rose-950/40 border border-rose-900/50 text-rose-200 shadow-md"
@@ -510,7 +510,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
                 }`}
               >
                 {isBot ? (
-                  <div className="prose prose-invert prose-sm max-w-none prose-headings:font-serif prose-headings:text-amber-100 prose-strong:text-amber-200 prose-a:text-amber-300 prose-li:marker:text-amber-400">
+                  <div className="prose prose-invert prose-sm max-w-none break-words prose-headings:font-serif prose-headings:text-amber-100 prose-strong:text-amber-200 prose-a:text-amber-300 prose-li:marker:text-amber-400">
                     <ReactMarkdown>{msg.text}</ReactMarkdown>
                   </div>
                 ) : (
@@ -567,7 +567,7 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
       </div>
 
       {/* Message Input Box */}
-      <div className="relative flex items-center gap-2">
+      <div className="relative flex min-w-0 items-stretch gap-2">
         <input
           id="jyotish-question-input"
           type="text"
@@ -585,14 +585,14 @@ export const AIJyotishConsultation: React.FC<AIJyotishConsultationProps> = ({
               : "करियर, शादी, धन लाभ, दशा या सात्विक उपाय के बारे में पूछें..."
           }
           disabled={isLoading}
-          className="flex-1 bg-slate-950 border border-amber-900/50 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+          className="min-w-0 flex-1 bg-slate-950 border border-amber-900/50 rounded-xl px-3 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:px-4"
         />
 
         <button
           id="jyotish-send-button"
           onClick={() => handleSendMessage()}
           disabled={isLoading || !inputQuery.trim()}
-          className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold text-sm hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+          className="min-h-11 shrink-0 px-3 sm:px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold text-xs sm:text-sm hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
         >
           <span>{language === "English" ? "Ask Acharya" : "पूछें"}</span>
           <span>→</span>

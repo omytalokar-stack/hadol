@@ -6,6 +6,7 @@ import React, {
   type FormEvent,
 } from "react";
 import { GoogleLogin } from "@react-oauth/google";
+import { Menu, X } from "lucide-react";
 import { useAuth } from "./context/AuthContext";
 import { BirthData, KundaliData } from "./types/jyotish";
 import { calculateKundali } from "./utils/vedicCalculations";
@@ -868,6 +869,7 @@ function AppShell() {
   const [activeTab, setActiveTab] = useState<
     "kundali" | "consultation" | "remedies" | "panchang" | "milan"
   >("kundali");
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [consultationPrompt, setConsultationPrompt] = useState<string>("");
   const [selectedHouse, setSelectedHouse] = useState<number>(1);
   const [chartType, setChartType] = useState<"D1" | "D9">("D1");
@@ -938,14 +940,14 @@ function AppShell() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-amber-500/30 selection:text-amber-200">
       {/* Top Sacred Header */}
-      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-amber-900/40 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-amber-900/40 shadow-lg">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
           {/* Logo & Branding */}
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-serif font-bold text-xl shadow-md border border-amber-300/40">
               ॐ
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <h1 className="text-lg sm:text-xl font-bold text-amber-200 font-serif tracking-wide">
                   Jyotish Veda
@@ -954,20 +956,20 @@ function AppShell() {
                   (ज्योतिष वेद)
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="max-w-[210px] truncate text-[10px] text-slate-400 sm:max-w-none sm:text-[11px]">
                 Parashari Sidereal Kundali & Authentic Sattvik Upay
               </p>
             </div>
           </div>
 
           {/* Simple / Expert Mode Switch & Action Controls */}
-          <div className="flex items-center flex-wrap gap-2 sm:gap-3">
+          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2 sm:gap-3">
             {/* Simple / Expert Mode Toggle */}
             <div className="flex items-center bg-slate-900 border border-amber-900/60 rounded-xl p-1 shadow-inner">
               <button
                 id="mode-simple-btn"
                 onClick={() => setIsSimpleMode(true)}
-                className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`min-h-9 px-2 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   isSimpleMode
                     ? "bg-amber-500 text-slate-950 font-bold shadow-md ring-1 ring-amber-300"
                     : "text-slate-400 hover:text-amber-200"
@@ -981,7 +983,7 @@ function AppShell() {
               <button
                 id="mode-expert-btn"
                 onClick={() => setIsSimpleMode(false)}
-                className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`min-h-9 px-2 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   !isSimpleMode
                     ? "bg-amber-500 text-slate-950 font-bold shadow-md ring-1 ring-amber-300"
                     : "text-slate-400 hover:text-amber-200"
@@ -997,7 +999,7 @@ function AppShell() {
             <button
               id="open-birth-modal-btn"
               onClick={() => setShowBirthModal(true)}
-              className="bg-slate-900/90 hover:bg-slate-800 border border-amber-900/50 hover:border-amber-500/60 px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer shadow-sm group"
+              className="min-h-10 max-w-full bg-slate-900/90 hover:bg-slate-800 border border-amber-900/50 hover:border-amber-500/60 px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer shadow-sm group"
               title="Click to edit birth date, time or location"
             >
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -1016,7 +1018,7 @@ function AppShell() {
             <button
               id="open-print-report-btn"
               onClick={() => setShowPrintModal(true)}
-              className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="min-h-10 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <span>🖨️</span>
               <span className="hidden sm:inline">Download Full PDF</span>
@@ -1024,7 +1026,7 @@ function AppShell() {
             <button
               type="button"
               onClick={() => void handleSaveKundli()}
-              className="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+              className="min-h-10 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
             >
               Save Kundli
             </button>
@@ -1067,7 +1069,26 @@ function AppShell() {
         </div>
 
         {/* Navigation Tabs Bar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex gap-1 overflow-x-auto pb-2 scrollbar-none">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between pb-2 md:hidden">
+          <span className="text-xs font-semibold text-amber-200">
+            {activeTab === "kundali" ? "Lagna & Bhavas" : activeTab === "consultation" ? "AI Astrologer" : activeTab === "remedies" ? "Sattvik Upay" : activeTab === "panchang" ? "Dainik Panchang" : "Kundali Milan"}
+          </span>
+          <button
+            type="button"
+            aria-expanded={isMobileNavOpen}
+            aria-controls="primary-navigation"
+            aria-label={isMobileNavOpen ? "Close navigation menu" : "Open navigation menu"}
+            onClick={() => setIsMobileNavOpen((open) => !open)}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-amber-900/50 text-amber-200 hover:bg-slate-900"
+          >
+            {isMobileNavOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+          </button>
+        </div>
+        <nav
+          id="primary-navigation"
+          aria-label="Main navigation"
+          className={`${isMobileNavOpen ? "flex" : "hidden"} max-w-7xl mx-auto px-3 sm:px-6 flex-col gap-1 pb-3 md:flex md:flex-row md:overflow-x-auto md:pb-2 scrollbar-none`}
+        >
           {[
             { id: "kundali", label: "Lagna & Bhavas (जन्म चक्र)", icon: "🔯" },
             {
@@ -1084,8 +1105,11 @@ function AppShell() {
               <button
                 key={tab.id}
                 id={`nav-tab-${tab.id}`}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 whitespace-nowrap transition-all cursor-pointer ${
+                onClick={() => {
+                  setActiveTab(tab.id as any);
+                  setIsMobileNavOpen(false);
+                }}
+                className={`min-h-11 w-full px-3.5 py-2 rounded-xl text-left text-xs sm:w-auto sm:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer ${
                   isActive
                     ? "bg-amber-500 text-slate-950 shadow-md font-bold ring-1 ring-amber-300"
                     : "text-slate-300 hover:text-amber-200 hover:bg-slate-900/60"
@@ -1096,11 +1120,11 @@ function AppShell() {
               </button>
             );
           })}
-        </div>
+        </nav>
       </header>
 
       {/* Main App Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+      <main className="min-w-0 flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-5 sm:space-y-6">
         {/* VIEW 1: KUNDALI & BHAVAS */}
         {activeTab === "kundali" && (
           <div className="space-y-6">
@@ -1191,11 +1215,11 @@ function AppShell() {
             })()}
 
             {/* D1/D9 Toggle & Kundali Chart Area with House Inspector */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 bg-slate-900 p-1 rounded-xl border border-amber-900/40 text-xs">
+            <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="grid grid-cols-1 gap-1 rounded-xl border border-amber-900/40 bg-slate-900 p-1 text-xs sm:inline-flex sm:grid-cols-2 sm:gap-2">
                 <button
                   onClick={() => setChartType("D1")}
-                  className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 rounded-lg px-3 py-2 text-left font-semibold transition-all cursor-pointer sm:text-center ${
                     chartType === "D1"
                       ? "bg-amber-500 text-slate-950 shadow-sm"
                       : "text-slate-400 hover:text-amber-200"
@@ -1205,7 +1229,7 @@ function AppShell() {
                 </button>
                 <button
                   onClick={() => setChartType("D9")}
-                  className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 rounded-lg px-3 py-2 text-left font-semibold transition-all cursor-pointer sm:text-center ${
                     chartType === "D9"
                       ? "bg-amber-500 text-slate-950 shadow-sm"
                       : "text-slate-400 hover:text-amber-200"
@@ -1215,14 +1239,14 @@ function AppShell() {
                 </button>
               </div>
 
-              <span className="text-xs text-amber-300/80 italic hidden sm:inline">
+              <span className="hidden text-xs text-amber-300/80 italic sm:inline">
                 Click any house on the chakra to inspect Parashari Bhavaphala
               </span>
             </div>
 
             {/* Chart + Inspector Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-7">
+            <div className="grid min-w-0 grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-12">
+              <div className="min-w-0 lg:col-span-7">
                 <KundaliChart
                   kundali={kundali}
                   chartType={chartType}
@@ -1231,7 +1255,7 @@ function AppShell() {
                 />
               </div>
 
-              <div className="lg:col-span-5">
+              <div className="min-w-0 lg:col-span-5">
                 <HouseInspector
                   house={currentHouseData}
                   allPlanets={kundali.planets}
